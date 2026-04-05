@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "pattern-review",
+  "description": "Pattern 审查委员会 for Claude Code",
+  "owner": {
+    "name": "easyfan",
+    "email": "zhengfan@apache.org"
+  },
+  "plugins": [
+    {
+      "name": "pattern-review",
+      "version": "1.0.0",
+      "description": "6-member review committee for ~/.claude/patterns/ files. Detects completeness, instantiability, and consistency issues. Auto-fixes uncontested defects via Reporter agent. Supports --quick triage and --regression modes.",
+      "category": "workflow",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/easyfan/pattern-review.git",
+        "sha": "0000000000000000000000000000000000000000"
+      },
+      "homepage": "https://github.com/easyfan/pattern-review"
+    }
+  ]
+}

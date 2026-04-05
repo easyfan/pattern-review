@@ -1,0 +1,46 @@
+{
+  "skill_name": "pattern-review",
+  "disable_t5": true,
+  "evals": [
+    {
+      "name": "list_mode_no_args",
+      "prompt": "/pattern-review:pattern-review",
+      "assert": {
+        "type": "contains",
+        "value": "~/.claude/patterns/"
+      }
+    },
+    {
+      "name": "quick_mode_no_patterns",
+      "prompt": "/pattern-review:pattern-review --quick all",
+      "assert": {
+        "type": "contains",
+        "value": "Triage"
+      }
+    },
+    {
+      "name": "nonexistent_target",
+      "prompt": "/pattern-review:pattern-review nonexistent_xyz_99999",
+      "assert": {
+        "type": "contains",
+        "value": "未找到"
+      }
+    },
+    {
+      "name": "full_committee_workflow",
+      "prompt": "/pattern-review:pattern-review all",
+      "assert": {
+        "type": "contains",
+        "value": "Stage 1 完成"
+      }
+    },
+    {
+      "name": "regression_mode",
+      "prompt": "/pattern-review:pattern-review --regression all",
+      "assert": {
+        "type": "contains",
+        "value": "P1"
+      }
+    }
+  ]
+}
