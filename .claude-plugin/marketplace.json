@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "pattern-review",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "6-member review committee for ~/.claude/patterns/ files. Detects completeness, instantiability, and consistency issues. Auto-fixes uncontested defects via Reporter agent. Supports --quick triage and --regression modes.",
       "category": "workflow",
       "source": {

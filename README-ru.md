@@ -111,7 +111,14 @@ cp agents/*.md              ~/.claude/agents/
 ~/.claude/
 └── skills/
     └── pattern-review/
-        └── SKILL.md
+        ├── SKILL.md
+        ├── DESIGN.md
+        └── scripts/
+            ├── quick_triage.sh
+            ├── init_scratch.sh
+            ├── format_precheck.sh
+            ├── verify_findings.sh
+            └── preread.sh
 ```
 
 **Вариант Б/В — скрипт / вручную:**
@@ -126,7 +133,14 @@ cp agents/*.md              ~/.claude/agents/
 │   └── pattern-reporter.md
 └── skills/
     └── pattern-review/
-        └── SKILL.md
+        ├── SKILL.md
+        ├── DESIGN.md
+        └── scripts/
+            ├── quick_triage.sh
+            ├── init_scratch.sh
+            ├── format_precheck.sh
+            ├── verify_findings.sh
+            └── preread.sh
 ```
 
 ---
@@ -146,7 +160,14 @@ pattern-review/
 │   ├── pattern-challenger.md
 │   └── pattern-reporter.md
 ├── skills/pattern-review/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── DESIGN.md
+│   └── scripts/
+│       ├── quick_triage.sh
+│       ├── init_scratch.sh
+│       ├── format_precheck.sh
+│       ├── verify_findings.sh
+│       └── preread.sh
 ├── evals/evals.json
 ├── install.sh                # точка входа (делегирует scripts/install.sh)
 └── scripts/
@@ -168,6 +189,25 @@ pattern-review/
 - Одновременное выполнение не поддерживается — параллельные экземпляры перезаписывают scratch-файлы друг друга. Защита через lockfile автоматически обнаруживает и блокирует это.
 - Режим `--quick` выполняется встроенно (без агентов), обычно менее 5 секунд.
 - **Вариант A устанавливает только skill** (`~/.claude/skills/`). Для полной установки используйте вариант Б или В.
+
+---
+
+## История изменений
+
+### v1.1.0 (2026-06-29)
+
+Борьба с «context rot» — координатор облегчён через skill-shrink:
+
+| Элемент | Изменение |
+|---------|-----------|
+| SKILL.md | 328 → 194 строк (-41 %), достигнута цель ≤220 строк |
+| scripts/ | 5 встроенных bash-блоков вынесены; координатор вызывает их одной строкой |
+| set -e | Скрипты используют `set -euo pipefail`; ненадёжные цепочки `&&` переписаны в явный `if` |
+| DESIGN.md | Детали режимов и индекс скриптов вынесены из контекста выполнения |
+
+Поведение не изменилось.
+
+Полные примечания к выпуску на английском: см. [README.md](README.md).
 
 ---
 

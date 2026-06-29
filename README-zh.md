@@ -111,7 +111,14 @@ cp agents/*.md              ~/.claude/agents/
 ~/.claude/
 └── skills/
     └── pattern-review/
-        └── SKILL.md
+        ├── SKILL.md
+        ├── DESIGN.md
+        └── scripts/
+            ├── quick_triage.sh
+            ├── init_scratch.sh
+            ├── format_precheck.sh
+            ├── verify_findings.sh
+            └── preread.sh
 ```
 
 **方式 B/C — 安装脚本 / 手动：**
@@ -126,7 +133,14 @@ cp agents/*.md              ~/.claude/agents/
 │   └── pattern-reporter.md
 └── skills/
     └── pattern-review/
-        └── SKILL.md
+        ├── SKILL.md
+        ├── DESIGN.md
+        └── scripts/
+            ├── quick_triage.sh
+            ├── init_scratch.sh
+            ├── format_precheck.sh
+            ├── verify_findings.sh
+            └── preread.sh
 ```
 
 ---
@@ -146,7 +160,14 @@ pattern-review/
 │   ├── pattern-challenger.md
 │   └── pattern-reporter.md
 ├── skills/pattern-review/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── DESIGN.md
+│   └── scripts/
+│       ├── quick_triage.sh
+│       ├── init_scratch.sh
+│       ├── format_precheck.sh
+│       ├── verify_findings.sh
+│       └── preread.sh
 ├── evals/evals.json
 ├── install.sh                # 入口（委托给 scripts/install.sh）
 └── scripts/
@@ -168,6 +189,25 @@ pattern-review/
 - 不支持并发运行——同时运行多个实例会导致 scratch 文件互相覆盖。skill 内置 lockfile 保护，会自动检测并阻止。
 - `--quick` 模式内联执行（不启动 agent），通常在 5 秒内完成。
 - **方式 A 仅安装 skill**（`~/.claude/skills/`）。完整安装请使用方式 B 或 C。
+
+---
+
+## 更新日志
+
+### v1.1.0 (2026-06-29)
+
+Context rot 治理 —— 通过 skill-shrink 精简协调者：
+
+| 项目 | 变更 |
+|------|------|
+| SKILL.md | 328 → 194 行（-41%），达到 ≤220 行稳定型协调者目标 |
+| scripts/ | 5 段内联 bash 外提（quick_triage / init_scratch / format_precheck / verify_findings / preread），协调者改为单行调用 |
+| set -e 安全 | 外提脚本统一 `set -euo pipefail`，原 `grep && {…}` / 失败 test 链改写为显式 `if`，避免误退出 |
+| DESIGN.md | 模式耗时、agent 安装依赖、脚本索引移出执行上下文 |
+
+行为不变 —— 模式（`--quick` / `--regression`）、agents、输出均保持一致。
+
+完整英文发布说明见 [README.md](README.md)。
 
 ---
 

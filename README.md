@@ -111,7 +111,14 @@ cp agents/*.md              ~/.claude/agents/
 ~/.claude/
 └── skills/
     └── pattern-review/
-        └── SKILL.md
+        ├── SKILL.md
+        ├── DESIGN.md           # design notes (not auto-loaded)
+        └── scripts/            # extracted bash helpers
+            ├── quick_triage.sh
+            ├── init_scratch.sh
+            ├── format_precheck.sh
+            ├── verify_findings.sh
+            └── preread.sh
 ```
 
 **Option B/C — script / manual:**
@@ -126,7 +133,14 @@ cp agents/*.md              ~/.claude/agents/
 │   └── pattern-reporter.md
 └── skills/
     └── pattern-review/
-        └── SKILL.md
+        ├── SKILL.md
+        ├── DESIGN.md
+        └── scripts/
+            ├── quick_triage.sh
+            ├── init_scratch.sh
+            ├── format_precheck.sh
+            ├── verify_findings.sh
+            └── preread.sh
 ```
 
 ---
@@ -146,7 +160,14 @@ pattern-review/
 │   ├── pattern-challenger.md
 │   └── pattern-reporter.md
 ├── skills/pattern-review/
-│   └── SKILL.md
+│   ├── SKILL.md              # coordinator instructions (≤220 lines)
+│   ├── DESIGN.md             # design notes (not loaded into exec context)
+│   └── scripts/              # extracted bash helpers (B-class)
+│       ├── quick_triage.sh
+│       ├── init_scratch.sh
+│       ├── format_precheck.sh
+│       ├── verify_findings.sh
+│       └── preread.sh
 ├── evals/evals.json
 ├── install.sh                # entry point (delegates to scripts/install.sh)
 └── scripts/
@@ -168,6 +189,23 @@ pattern-review/
 - Concurrent execution is not supported — simultaneous instances overwrite each other's scratch files. A lockfile guard is included to detect and block this.
 - `--quick` mode runs inline (no agents), taking under 5 seconds.
 - **Option A installs only the skill** (`~/.claude/skills/`). Use Option B or C to install the full agent set.
+
+---
+
+## Changelog
+
+### v1.1.0 (2026-06-29)
+
+Context-rot governance — coordinator slimmed via skill-shrink:
+
+| Item | Change |
+|------|--------|
+| SKILL.md | 328 → 194 lines (-41%); now ≤220-line stable-coordinator target |
+| scripts/ | 5 inline bash blocks extracted (`quick_triage`, `init_scratch`, `format_precheck`, `verify_findings`, `preread`); coordinator calls them as one-liners |
+| set -e safety | Extracted scripts use `set -euo pipefail`; original `grep && {…}` / failing-test chains rewritten as explicit `if` to avoid spurious exits |
+| DESIGN.md | Mode timings, agent-install dependency, and script index moved out of the exec context |
+
+No behavior change — same modes (`--quick` / `--regression`), same agents, same outputs.
 
 ---
 

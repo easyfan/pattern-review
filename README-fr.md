@@ -111,7 +111,14 @@ cp agents/*.md              ~/.claude/agents/
 ~/.claude/
 └── skills/
     └── pattern-review/
-        └── SKILL.md
+        ├── SKILL.md
+        ├── DESIGN.md
+        └── scripts/
+            ├── quick_triage.sh
+            ├── init_scratch.sh
+            ├── format_precheck.sh
+            ├── verify_findings.sh
+            └── preread.sh
 ```
 
 **Option B/C — script / manuel :**
@@ -126,7 +133,14 @@ cp agents/*.md              ~/.claude/agents/
 │   └── pattern-reporter.md
 └── skills/
     └── pattern-review/
-        └── SKILL.md
+        ├── SKILL.md
+        ├── DESIGN.md
+        └── scripts/
+            ├── quick_triage.sh
+            ├── init_scratch.sh
+            ├── format_precheck.sh
+            ├── verify_findings.sh
+            └── preread.sh
 ```
 
 ---
@@ -146,7 +160,14 @@ pattern-review/
 │   ├── pattern-challenger.md
 │   └── pattern-reporter.md
 ├── skills/pattern-review/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── DESIGN.md
+│   └── scripts/
+│       ├── quick_triage.sh
+│       ├── init_scratch.sh
+│       ├── format_precheck.sh
+│       ├── verify_findings.sh
+│       └── preread.sh
 ├── evals/evals.json
 ├── install.sh                # point d'entrée (délègue à scripts/install.sh)
 └── scripts/
@@ -168,6 +189,25 @@ pattern-review/
 - L'exécution simultanée n'est pas supportée — des instances parallèles s'écrasent mutuellement les fichiers scratch. Un verrou (lockfile) intégré détecte et bloque cela automatiquement.
 - Le mode `--quick` s'exécute en ligne (sans agents), en général en moins de 5 secondes.
 - **L'option A installe uniquement le skill** (`~/.claude/skills/`). Pour une installation complète, utiliser l'option B ou C.
+
+---
+
+## Journal des modifications
+
+### v1.1.0 (2026-06-29)
+
+Assainissement du « context rot » — coordinateur allégé via skill-shrink :
+
+| Élément | Changement |
+|---------|------------|
+| SKILL.md | 328 → 194 lignes (-41 %), objectif ≤220 lignes atteint |
+| scripts/ | 5 blocs bash en ligne externalisés ; le coordinateur les appelle en une ligne |
+| set -e | Les scripts utilisent `set -euo pipefail` ; chaînes `&&` fragiles réécrites en `if` explicite |
+| DESIGN.md | Détails des modes et index des scripts sortis du contexte d'exécution |
+
+Aucun changement de comportement.
+
+Notes de version complètes en anglais : voir [README.md](README.md).
 
 ---
 

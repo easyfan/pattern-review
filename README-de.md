@@ -111,7 +111,14 @@ cp agents/*.md              ~/.claude/agents/
 ~/.claude/
 └── skills/
     └── pattern-review/
-        └── SKILL.md
+        ├── SKILL.md
+        ├── DESIGN.md
+        └── scripts/
+            ├── quick_triage.sh
+            ├── init_scratch.sh
+            ├── format_precheck.sh
+            ├── verify_findings.sh
+            └── preread.sh
 ```
 
 **Option B/C — Skript / Manuell:**
@@ -126,7 +133,14 @@ cp agents/*.md              ~/.claude/agents/
 │   └── pattern-reporter.md
 └── skills/
     └── pattern-review/
-        └── SKILL.md
+        ├── SKILL.md
+        ├── DESIGN.md
+        └── scripts/
+            ├── quick_triage.sh
+            ├── init_scratch.sh
+            ├── format_precheck.sh
+            ├── verify_findings.sh
+            └── preread.sh
 ```
 
 ---
@@ -146,7 +160,14 @@ pattern-review/
 │   ├── pattern-challenger.md
 │   └── pattern-reporter.md
 ├── skills/pattern-review/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── DESIGN.md
+│   └── scripts/
+│       ├── quick_triage.sh
+│       ├── init_scratch.sh
+│       ├── format_precheck.sh
+│       ├── verify_findings.sh
+│       └── preread.sh
 ├── evals/evals.json
 ├── install.sh                # Einstiegspunkt (delegiert an scripts/install.sh)
 └── scripts/
@@ -168,6 +189,25 @@ pattern-review/
 - Gleichzeitige Ausführung nicht unterstützt — parallele Instanzen überschreiben gegenseitig ihre Scratch-Dateien. Eine Lockfile-Absicherung erkennt und blockiert dies automatisch.
 - `--quick`-Modus läuft inline (keine Agents), in der Regel unter 5 Sekunden.
 - **Option A installiert nur den Skill** (`~/.claude/skills/`). Für vollständige Installation Option B oder C verwenden.
+
+---
+
+## Änderungsprotokoll
+
+### v1.1.0 (2026-06-29)
+
+Context-Rot-Bereinigung — Koordinator via skill-shrink verschlankt:
+
+| Element | Änderung |
+|---------|----------|
+| SKILL.md | 328 → 194 Zeilen (-41 %), Ziel ≤220 Zeilen erreicht |
+| scripts/ | 5 Inline-Bash-Blöcke ausgelagert; Koordinator ruft sie als Einzeiler auf |
+| set -e | Ausgelagerte Skripte nutzen `set -euo pipefail`; fehleranfällige `&&`-Ketten in explizite `if` umgeschrieben |
+| DESIGN.md | Modus-Details und Skript-Index aus dem Ausführungskontext entfernt |
+
+Keine Verhaltensänderung.
+
+Vollständige Release Notes auf Englisch siehe [README.md](README.md).
 
 ---
 
