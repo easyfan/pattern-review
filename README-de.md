@@ -194,6 +194,15 @@ pattern-review/
 
 ## Änderungsprotokoll
 
+### v1.1.1 (2026-07-08)
+
+| Punkt | Änderung |
+|------|----------|
+| Regressionsmodus-Vertrag | `--regression` schreibt vor dem Reporter eine Platzhalter-Datei `challenger_response.md` |
+| Parallelitätssperre | `init_scratch.sh` nutzt jetzt eine reine Zeitstempel-Sperre (`kill -0` prüfte eine kurzlebige PID und blockierte nie) |
+
+Siehe [README.md](README.md) für die vollständigen englischen Release Notes.
+
 ### v1.1.0 (2026-06-29)
 
 Context-Rot-Bereinigung — Koordinator via skill-shrink verschlankt:

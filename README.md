@@ -194,6 +194,15 @@ pattern-review/
 
 ## Changelog
 
+### v1.1.1 (2026-07-08)
+
+Committee-audit bug fixes (found by an external /skill-review audit):
+
+| Item | Change |
+|------|--------|
+| Regression mode contract | `--regression` now writes a placeholder `challenger_response.md` before entering Reporter — previously the file was never created, breaking Reporter's input contract |
+| Concurrency lock | `init_scratch.sh` switched to a pure timestamp lock (`LOCK_TTL=1800s`); the old `kill -0` check tested a short-lived bash PID and never actually blocked concurrent runs |
+
 ### v1.1.0 (2026-06-29)
 
 Context-rot governance — coordinator slimmed via skill-shrink:

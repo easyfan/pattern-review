@@ -143,7 +143,12 @@ Stage 2 将启动 Challenger（opus）+ Reporter
 
 ### Stage 2：深潜与修改
 
-**回归模式**：跳过 Challenger，直接进入 Reporter。
+**回归模式**：跳过 Challenger，写入占位裁定文件后直接进入 Reporter：
+
+```bash
+echo "[回归模式，已跳过 Challenger，无 CONFIRMED/DISPUTED 裁定]" \
+  > "$SCRATCH_DIR/challenger_response.md"
+```
 
 **2a 启动 Challenger（完整模式）** — Task tool，`subagent_type: "pattern-challenger"`，传入：
 

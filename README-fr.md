@@ -194,6 +194,15 @@ pattern-review/
 
 ## Journal des modifications
 
+### v1.1.1 (2026-07-08)
+
+| Élément | Changement |
+|---------|------------|
+| Contrat du mode régression | `--regression` écrit un fichier `challenger_response.md` de substitution avant le Reporter |
+| Verrou de concurrence | `init_scratch.sh` utilise désormais un verrou purement horodaté (`kill -0` testait un PID éphémère et ne bloquait jamais) |
+
+Voir [README.md](README.md) pour les notes de version complètes en anglais.
+
 ### v1.1.0 (2026-06-29)
 
 Assainissement du « context rot » — coordinateur allégé via skill-shrink :

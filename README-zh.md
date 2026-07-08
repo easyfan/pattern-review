@@ -194,6 +194,15 @@ pattern-review/
 
 ## 更新日志
 
+### v1.1.1 (2026-07-08)
+
+| 项目 | 变更 |
+|------|------|
+| 回归模式契约 | `--regression` 进入 Reporter 前补写 `challenger_response.md` 占位文件 |
+| 并发锁 | `init_scratch.sh` 改为纯时间戳锁，修复 `kill -0` 检测短命 PID 恒失效的问题 |
+
+完整英文 release notes 见 [README.md](README.md)。
+
 ### v1.1.0 (2026-06-29)
 
 Context rot 治理 —— 通过 skill-shrink 精简协调者：
