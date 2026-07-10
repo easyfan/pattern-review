@@ -88,13 +88,33 @@ bash "$SKILL_DIR/scripts/preread.sh" <目标文件列表>
 将完整输出作为**预读内容块**嵌入 Stage 1 Agent prompt，并附说明：
 > 以上为所有目标文件前 80 行（front-matter + 章节结构）。无需再次 Read 文件头部，仅分析后续内容时才 Read。请保留至少 2 次工具调用用于最终 Write。
 
-输出启动提示：`[审查启动] 目标 N 个文件 | 模式：完整/回归/--quick | 预计 Stage 1 共 1-5 分钟`。
+**0f UNI 对标上下文加载**（写入 `$SCRATCH_DIR/uni_context.md`，失败不中断，P1 降级为无 UNI 维度）：
+
+```bash
+bash "$SKILL_DIR/scripts/load_uni_gotchas.sh" "$HOME/.claude/skill-gotchas" "$SCRATCH_DIR/uni_context.md" \
+  || echo "[WARN] UNI 上下文加载失败，P1 将跳过 D5 维度"
+```
+
+加载后判定：若 `$SCRATCH_DIR/uni_context.md` 存在且非空，则 Stage 1 传参时注入 P1；否则省略 UNI 专属传参（P1 自动跳过 D5）。
+加载 P0/P1 级通用失效模式库（UNI gotcha）摘要，仅注入 P1 审计员（见 Stage 1 传参）。设计背景与定期触发约定见 `DESIGN.md` §UNI 对标维度。
+
+读取 UNI 加载结果：
+```bash
+if [ -s "$SCRATCH_DIR/uni_context.md" ]; then UNI_STATUS="已加载"; else UNI_STATUS="已降级（加载失败或目录不存在）"; fi
+```
+
+输出启动提示：`[审查启动] 目标 N 个文件 | 模式：完整/回归/--quick | UNI 对标：${UNI_STATUS} | 预计 Stage 1 共 1-5 分钟`。
 
 ---
 
 ### Stage 1：并行专项审查
 
 向每个 Agent 传入：目标文件绝对路径列表、SCRATCH_DIR 绝对路径、预读内容块、findings 格式要求（每条以 `### [P0/P1/P2/P3]` 开头）。
+
+**P1 专属传参（UNI 对标）**：仅当 `$SCRATCH_DIR/uni_context.md` 存在且非空时，才额外内联其全文，并在 prompt 头部加入：
+> 以下为跨 skill 通用失效模式库（UNI）的 P0/P1 级条目。你必须执行 D5「UNI 对标」维度：逐条判定该模式对本 pattern 的适用性与结构性覆盖，并在 findings 末尾输出「UNI 对标」节（逐条 适用/N/A + 已覆盖/未覆盖 + 判定依据）。
+
+P2/P3/P4 不注入（UNI 为内部执行历史，与可实例化性/一致性/外部研究维度无关）。
 
 **完整模式**：单条消息同时启动 4 个 Agent：
 
@@ -119,12 +139,28 @@ bash "$SKILL_DIR/scripts/verify_findings.sh" "$SCRATCH_DIR" "${REGRESSION_MODE:-
 
 读取所有 findings 文件，统计后向用户输出：
 
+完整模式输出：
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🏛️ Pattern 审查委员会 — Stage 1 完成
 审查目标：N 个文件 | 发现总数：X 个
-P1：X | P2：X | P3：X | P4：X    其中 P0×X  P1×X  P2×X  P3×X
+完整性(P1)：X条 | 实例化(P2)：X条 | 一致性(P3)：X条 | 研究(P4)：X条    其中 P0级×X  P1级×X  P2级×X  P3级×X
+🔍 UNI 对标：X 条适用 / Y 条未覆盖
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+回归模式输出：
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏛️ Pattern 审查委员会 — Stage 1 完成（回归模式）
+审查目标：N 个文件 | 发现总数：X 个
+完整性(P1)：X条 | 实例化(P2)：X条 | 已跳过：P3/P4    其中 P0级×X  P1级×X  P2级×X  P3级×X
+🔍 UNI 对标：X 条适用 / Y 条未覆盖
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+两种模式的头部之后均接以下公共主体：
+```
 🔴 高优先级（影响实例化正确性）
   [P1] <问题标题> — <一句话描述>
 🟡 中优先级

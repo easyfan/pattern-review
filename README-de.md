@@ -194,6 +194,16 @@ pattern-review/
 
 ## Änderungsprotokoll
 
+### v1.2.0 (2026-07-10)
+
+| Punkt | Änderung |
+|-------|----------|
+| Step 0f | Koordinator lädt P0/P1-UNI-Fehlermuster über neues Skript load_uni_gotchas.sh (mit sanfter Degradierung) |
+| P1-Dimension D5 | Neues verpflichtendes UNI-Benchmark-Audit: Anwendbarkeit + strukturelle Abdeckung je Eintrag |
+| Stage-1-Zusammenfassung | Neue Statistikzeile `🔍 UNI 对标`; eigener Block für den Regressionsmodus |
+
+Siehe [README.md](README.md) für die vollständigen englischen Release Notes.
+
 ### v1.1.1 (2026-07-08)
 
 | Punkt | Änderung |

@@ -194,6 +194,16 @@ pattern-review/
 
 ## Journal des modifications
 
+### v1.2.0 (2026-07-10)
+
+| Élément | Changement |
+|---------|------------|
+| Step 0f | Le coordinateur charge les modes de défaillance UNI P0/P1 via le nouveau script load_uni_gotchas.sh (dégradation gracieuse) |
+| Dimension P1 D5 | Nouvel audit obligatoire « UNI benchmark » : applicabilité + couverture structurelle par entrée |
+| Résumé Stage 1 | Nouvelle ligne de statistique `🔍 UNI 对标` ; bloc dédié au mode régression |
+
+Voir [README.md](README.md) pour les notes de version complètes en anglais.
+
 ### v1.1.1 (2026-07-08)
 
 | Élément | Changement |

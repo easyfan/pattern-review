@@ -31,3 +31,13 @@
 所有脚本固定 `set -euo pipefail`；原内联代码在 set -e 下会被 `&&`/失败 test 链误触发退出的部分，已改写为显式 `if`。
 
 section-header grep 模式与占位符正则 `\[TODO\]|\[待填写\]|\[PLACEHOLDER\]` 在 `quick_triage.sh` 与 `format_precheck.sh` 中各自维护：二者均为 bash 消费，物化为 JSON manifest 对脚本无益，故不引入 manifest，修改时需同步两处。
+
+新增 `load_uni_gotchas.sh`：从 `~/.claude/skill-gotchas/universal-*.yaml` 提取 P0/P1 级条目的 id/title/priority/description 摘要，写入 `uni_context.md`。入参：gotcha 目录、输出文件路径。
+
+## §UNI 对标维度（E2 回灌机制）
+
+**来源**：proposal `20260708_cross-project-skill-refine-feedback.md` E2 项。UNI-001~015 是跨 skill 抽象出的通用失效模式，但此前仅 code-deep-research 零星引用（UNI-013），修复未结构性回流模板，导致同类缺陷跨项目复发（实证见该 proposal「核心发现」节）。
+
+**机制**：协调者 Step 0f 加载 P0/P1 级 UNI 摘要 → 仅注入 P1 完整性审计员（D5 维度）→ 逐条判定「适用性 + 结构性覆盖」→ findings 末尾强制「UNI 对标」节。适用且未覆盖的条目产出发现，优先级按 UNI priority 降一级（模板缺失是复发风险而非即时错误）。仅注入 P1 的原因：结构性覆盖检查本质是完整性审计；P2（可实例化）/P3（一致性）/P4（外部研究）与内部执行历史无关，注入徒增 context。
+
+**定期触发约定**：每季度、或 UNI 库每新增 3 条 P0/P1 级条目时，执行一次 `/pattern-review all` 全模板对标（重点看各 findings 的 UNI 对标节）。触发记录由使用者在 proposal/worklist 中自行追踪，本 skill 不做持久化。

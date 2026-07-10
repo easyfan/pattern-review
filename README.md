@@ -194,6 +194,17 @@ pattern-review/
 
 ## Changelog
 
+### v1.2.0 (2026-07-10)
+
+UNI benchmark dimension (E2) — the universal failure-mode library now structurally audits every pattern:
+
+| Item | Change |
+|------|--------|
+| Step 0f (`SKILL.md`) | Coordinator loads P0/P1-level UNI gotcha summaries via new `scripts/load_uni_gotchas.sh` into `uni_context.md`; load failure degrades gracefully (P1 skips the dimension) and the startup banner reports UNI status |
+| P1 dimension D5 (`agents/pattern-reviewer-p1.md`) | New mandatory "UNI 对标" audit: per-entry applicability + structural-coverage verdict; applicable-but-uncovered entries become findings one priority level below the UNI entry |
+| Stage 1 summary | Dimension counters renamed for clarity; new `🔍 UNI 对标` stat line; regression mode gets its own summary block |
+| `DESIGN.md` | New §UNI 对标维度: mechanism rationale (P1-only injection), plus the periodic re-benchmark convention (quarterly or every 3 new P0/P1 UNI entries) |
+
 ### v1.1.1 (2026-07-08)
 
 Committee-audit bug fixes (found by an external /skill-review audit):
