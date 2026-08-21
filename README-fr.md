@@ -194,6 +194,10 @@ pattern-review/
 
 ## Journal des modifications
 
+### v1.3.0 (2026-08-21)
+
+Porte de quota pré-spawn pour le Stage 1 : avant de lancer les 4 agents de revue en parallèle, le coordinateur exécute `quota_report.sh --spawn 4` de quota-pilot (ignoré silencieusement si quota-pilot n'est pas installé). Le verdict `parallel` conserve le comportement actuel ; `serial` transforme le fan-out en chaîne (P1→P2→P3→P4) afin que les alertes de quota puissent garer la session à une frontière d'unité ; `park` écrit un checkpoint à la frontière propre et attend la réinitialisation de la fenêtre. Corrige l'angle mort de consommation des sous-agents parallèles (lacune ④ de quota-pilot).
+
 ### v1.2.0 (2026-07-10)
 
 | Élément | Changement |

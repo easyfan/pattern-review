@@ -116,7 +116,9 @@ if [ -s "$SCRATCH_DIR/uni_context.md" ]; then UNI_STATUS="已加载"; else UNI_S
 
 P2/P3/P4 不注入（UNI 为内部执行历史，与可实例化性/一致性/外部研究维度无关）。
 
-**完整模式**：单条消息同时启动 4 个 Agent：
+**spawn 前额度门**（缺口④：并发 subagent 运行期 gate 失明，必须 spawn 前裁决）：启动前先运行 `~/.claude/quota-pilot/bin/quota_report.sh --spawn 4`（脚本缺失或输出含 `error` → 跳过本门按原计划执行）。按 `verdict`：`parallel` → 按下述并发执行；`serial` → 改为逐个 spawn（P1→P2→P3→P4，每个返回后再发下一个，收到 warn/critical 告警时在单元边界按 quota-pilot 协议存档）；`park` → 不 spawn，按 quota-pilot 协议以输出中 `five_hour.resets_at_epoch` 挂闹钟、写 checkpoint（此时为干净边界）、结束 turn。
+
+**完整模式**：单条消息同时启动 4 个 Agent（额度门裁决为 serial/park 时除外）：
 
 | Agent | subagent_type | 职责 |
 |-------|--------------|------|

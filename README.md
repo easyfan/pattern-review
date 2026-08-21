@@ -194,6 +194,10 @@ pattern-review/
 
 ## Changelog
 
+### v1.3.0 (2026-08-21)
+
+Pre-spawn quota gate for Stage 1: before launching the 4 review agents in parallel, the coordinator runs quota-pilot's `quota_report.sh --spawn 4` (skipped silently if quota-pilot is not installed). Verdict `parallel` keeps the current behavior; `serial` converts the fan-out into a chain (P1→P2→P3→P4) so quota alerts can park the session at a unit boundary; `park` checkpoints at the clean boundary and waits for the window reset. Closes the parallel-subagent burn blind spot (quota-pilot gap ④).
+
 ### v1.2.0 (2026-07-10)
 
 UNI benchmark dimension (E2) — the universal failure-mode library now structurally audits every pattern:

@@ -194,6 +194,10 @@ pattern-review/
 
 ## 更新日志
 
+### v1.3.0（2026-08-21）
+
+Stage 1 增加 spawn 前额度门：并发启动 4 个审查 Agent 前，协调者先运行 quota-pilot 的 `quota_report.sh --spawn 4`（未安装则静默跳过）。裁决 `parallel` 维持原并发行为；`serial` 把 fan-out 拆为串行链（P1→P2→P3→P4），使额度告警能在单元边界存档；`park` 在干净边界写 checkpoint 等待窗口重置。封堵并行 subagent 燃烧盲区（quota-pilot 缺口④）。
+
 ### v1.2.0 (2026-07-10)
 
 | 项目 | 变更 |

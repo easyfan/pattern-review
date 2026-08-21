@@ -194,6 +194,10 @@ pattern-review/
 
 ## Änderungsprotokoll
 
+### v1.3.0 (2026-08-21)
+
+Pre-Spawn-Quota-Gate für Stage 1: Vor dem parallelen Start der 4 Review-Agenten führt der Koordinator quota-pilots `quota_report.sh --spawn 4` aus (ohne quota-pilot stillschweigend übersprungen). Verdikt `parallel` behält das bisherige Verhalten; `serial` wandelt das Fan-out in eine Kette (P1→P2→P3→P4), sodass Quota-Warnungen die Session an einer Einheitsgrenze parken können; `park` schreibt einen Checkpoint an der sauberen Grenze und wartet auf den Fenster-Reset. Schließt den Blindfleck paralleler Subagenten (quota-pilot Lücke ④).
+
 ### v1.2.0 (2026-07-10)
 
 | Punkt | Änderung |
